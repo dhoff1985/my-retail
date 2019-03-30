@@ -1,0 +1,4 @@
+micronaut:
+    application:
+        name: myretail
+        version: 1.0.0
