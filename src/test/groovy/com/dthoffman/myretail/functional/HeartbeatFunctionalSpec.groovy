@@ -14,12 +14,6 @@ import javax.inject.Inject
 class HeartbeatFunctionalSpec extends Specification {
 
   @Inject
-  EmbeddedServer server
-
-  @Inject
-  ApplicationContext context
-
-  @Inject
   @Client('/')
   HttpClient client
 

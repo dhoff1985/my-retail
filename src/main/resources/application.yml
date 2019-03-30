@@ -1,4 +1,8 @@
 micronaut:
-    application:
-        name: myretail
-        version: 1.0.0
+  application:
+    name: myretail
+    version: 1.0.0
+backend:
+  redsky:
+    base-url: "https://redsky.target.com"
+    path: "/v2/pdp/tcin/{tcin}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics"
