@@ -26,10 +26,10 @@ Returns product and price information for a given tcin
 
 # Architecture
 ## Stack
-* Language: [Kotlin](https://kotlinlang.org/)
-* Framework: [Micronaut](https://micronaut.io/)
-* Concurrency: [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
-* Data Store: [MongoDB](https://www.mongodb.com/)
+* Language: [Kotlin](https://kotlinlang.org/) Modern Language
+* Framework: [Micronaut](https://micronaut.io/) Optimized for Microservices
+* Concurrency: [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) Readable and efficient
+* Data Store: [MongoDB](https://www.mongodb.com/) 
 
 ## Testing
 [Spock Framework](http://spockframework.org/)
@@ -47,15 +47,22 @@ They should test the running application mocking only external dependencies.
 Functional tests should focus on testing the application at the feature level.
 Each test should be focused on specific functional requirements.
 
-## Building
+## Local Development
+
+### Start Mongo
+The local development requires a running mongo instance
+```$sh
+bin/start-mongo.sh
+```
+### Build
 ```$sh
 ./gradlew clean build
 ```
 
-## Running
+## Running Locally
 ```$sh
 ./gradlew run
 ```
 
-## Intellij IDEA
+### Intellij IDEA
 enable annotation processing [intellij setup instructions](https://guides.micronaut.io/creating-your-first-micronaut-app-kotlin/guide/index.html)

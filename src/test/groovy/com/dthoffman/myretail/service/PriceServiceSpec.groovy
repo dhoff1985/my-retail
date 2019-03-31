@@ -1,27 +1,30 @@
 package com.dthoffman.myretail.service
 
+import com.dthoffman.myretail.BaseSpec
 import com.dthoffman.myretail.domain.Price
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
-import spock.lang.Specification
+import kotlinx.coroutines.Dispatchers
 
-import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Filters.eq;
 
-class PriceServiceSpec extends Specification {
+class PriceServiceSpec extends BaseSpec {
 
   MongoCollection<Price> mockPriceColleciton = Mock(MongoCollection)
 
-  PriceService priceService = new PriceService(mockPriceColleciton)
+  PriceService priceService = new PriceService(mockPriceColleciton, Dispatchers.Default)
 
   String tcin = "123"
 
-  def "get price retrieves price from mongo" () {
+  def "get price retrieves price from mongo"() {
     setup:
     Price price = new Price(tcin: tcin, price: '$2.95')
     FindIterable mockFindIterable = Mock(FindIterable)
 
     when:
-    Price result = priceService.getPrice(tcin)
+    Price result = sync {
+      priceService.getPrice(tcin)
+    }
 
     then:
     result == price
@@ -30,4 +33,5 @@ class PriceServiceSpec extends Specification {
     }) >> mockFindIterable
     1 * mockFindIterable.first() >> price
   }
+
 }
