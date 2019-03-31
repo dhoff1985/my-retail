@@ -37,6 +37,9 @@ dependencies {
   runtime "ch.qos.logback:logback-classic:1.2.3"
   runtime "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4.1"
 
+  compile 'io.micronaut.configuration:micronaut-mongo-reactive'
+  compile "org.mongodb:mongo-java-driver"
+
   testCompile ("io.micronaut.test:micronaut-test-spock:1.0.2") {
     exclude group: 'org.spockframework'
   }
@@ -62,6 +65,7 @@ mainClassName = "com.dthoffman.myretail.Application"
 
 allOpen {
   annotation("io.micronaut.aop.Around")
+  annotation("javax.inject.Singleton")
 }
 
 compileKotlin {

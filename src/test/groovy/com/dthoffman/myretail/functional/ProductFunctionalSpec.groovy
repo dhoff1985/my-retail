@@ -1,7 +1,11 @@
 package com.dthoffman.myretail.functional
 
+import com.dthoffman.myretail.domain.Price
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.junit.WireMockRule
+import com.mongodb.client.MongoCollection
+import com.mongodb.MongoClient
+import com.mongodb.client.MongoDatabase
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MicronautTest
@@ -24,8 +28,18 @@ class ProductFunctionalSpec extends Specification {
   public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8089));
 
   @Inject
+  MongoClient mongoClient
+
+  @Inject
+  MongoCollection<Price> priceMongoCollection
+
+  @Inject
   @Client('/')
   HttpClient client
+
+  def cleanup() {
+    dropDp()
+  }
 
   def "/product/{id} calls redsky and returns product name"() {
     setup:
@@ -38,6 +52,34 @@ class ProductFunctionalSpec extends Specification {
     response.id == "13860428"
     response.name == "The Big Lebowski (Blu-ray)"
     verifyProductCall()
+  }
+
+  def "/product/{id} calls redsky and returns product name and price"() {
+    setup:
+    stubProductCall()
+    savePrice(new Price(tcin: '13860428', price:'$2.95'))
+
+    when:
+    Map response = client.toBlocking().retrieve('/product/13860428', Map)
+
+    then:
+    response.id == "13860428"
+    response.name == "The Big Lebowski (Blu-ray)"
+    response.price == '$2.95'
+    verifyProductCall()
+  }
+
+
+  void savePrice(Price price) {
+    priceMongoCollection.insertOne(price)
+  }
+
+  private MongoDatabase getMyRetailMongoDatabase() {
+    mongoClient.getDatabase('myRetail')
+  }
+
+  void dropDp() {
+    getMyRetailMongoDatabase().drop()
   }
 
   void stubProductCall() {
@@ -57,6 +99,7 @@ class ProductFunctionalSpec extends Specification {
       .withBody(objectMapper.writeValueAsString(productResponse))
       .withHeader("Content-type", "application/json")))
   }
+
   void verifyProductCall() {
     verify(getRequestedFor(urlEqualTo(productUrl)))
   }

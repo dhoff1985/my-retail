@@ -1,4 +1,17 @@
 # My Retail Application
+Aggregates product and price information for products
+
+#Architecture
+## Stack
+* Language: Kotlin
+* Framework: Micronaut
+* Concurrency: Coroutines
+* Data Store: MongoDB
+
+## Testing
+* Spock Framework
+* Unit Tests
+* Functional Tests
 
 ## Building
 ```$sh

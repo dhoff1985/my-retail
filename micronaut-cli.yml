@@ -1,4 +1,4 @@
 profile: service
-defaultPackage: com.dthoffman
+defaultPackage: com.dthoffman.myretail
 ---
 sourceLanguage: kotlin

@@ -5,6 +5,7 @@ import com.dthoffman.myretail.client.PDPProduct
 import com.dthoffman.myretail.client.PDPResponse
 import com.dthoffman.myretail.client.ProductDescription
 import com.dthoffman.myretail.client.RedskyClient
+import com.dthoffman.myretail.domain.Price
 import com.dthoffman.myretail.domain.Product
 import spock.lang.Specification
 
@@ -14,7 +15,9 @@ class ProductServiceSpec extends Specification {
 
   RedskyClient mockRedskyClient = Mock(RedskyClient)
 
-  ProductService productService = new ProductService(mockRedskyClient)
+  PriceService mockPriceService = Mock(PriceService)
+
+  ProductService productService = new ProductService(mockRedskyClient, mockPriceService)
 
   String tcin = "123"
 
@@ -24,8 +27,22 @@ class ProductServiceSpec extends Specification {
 
     then:
     1 * mockRedskyClient.getPdp(tcin) >> CompletableFuture.completedFuture(buildProductResponse())
+    1 * mockPriceService.getPrice(tcin) >> null
     response.id == tcin
     response.name == "The Big Lebowski (Blu-ray)"
+    response.price == null
+  }
+
+  def "product service calls redsky and returns product name and price" () {
+    when:
+    Product response = productService.getProduct(tcin)
+
+    then:
+    1 * mockRedskyClient.getPdp(tcin) >> CompletableFuture.completedFuture(buildProductResponse())
+    1 * mockPriceService.getPrice(tcin) >> new Price(tcin: tcin, price: '$2.95')
+    response.id == tcin
+    response.name == "The Big Lebowski (Blu-ray)"
+    response.price == '$2.95'
   }
 
   PDPResponse buildProductResponse() {
