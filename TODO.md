@@ -3,8 +3,8 @@
     * [x] Product call fails with status code
     * [x] Product call times out
     * [x] Product response missing fields
+    * [x] Price failures
 * [ ] Add Price PUT Endpoint
 * [ ] Add Metrics
-* [ ] Add Logging
+* [x] Add Logging
 * [ ] Update Readme
-* [ ] Warning: An illegal reflective access operation has occurred

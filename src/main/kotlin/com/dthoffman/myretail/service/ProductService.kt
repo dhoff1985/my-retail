@@ -2,6 +2,7 @@ package com.dthoffman.myretail.service
 
 import com.dthoffman.myretail.client.PDPResponse
 import com.dthoffman.myretail.client.RedskyClient
+import com.dthoffman.myretail.domain.Price
 import com.dthoffman.myretail.domain.Product
 import io.micronaut.http.client.exceptions.HttpClientException
 import kotlinx.coroutines.CoroutineScope
@@ -21,9 +22,18 @@ class ProductService(val redskyClient: RedskyClient, val priceService: PriceServ
     fun getProduct(tcin: String): Deferred<Product> {
         return async {
             val productResponse = getPdpResponse(tcin)
-            val price = priceService.getPrice(tcin).await()
+            val price = getPrice(tcin)
             Product(tcin, productResponse?.product?.item?.product_description?.title, price?.price)
         }
+    }
+
+    private suspend fun getPrice(tcin: String): Price? {
+        try {
+            return priceService.getPrice(tcin).await()
+        } catch (e: Exception) {
+            log.warn("Error retrieving price", e)
+        }
+        return null
     }
 
     private suspend fun getPdpResponse(tcin: String): PDPResponse? {
