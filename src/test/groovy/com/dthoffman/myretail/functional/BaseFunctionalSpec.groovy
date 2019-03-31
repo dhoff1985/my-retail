@@ -2,7 +2,9 @@ package com.dthoffman.myretail.functional
 
 import com.dthoffman.myretail.domain.Price
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.junit.WireMockRule
+import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import com.mongodb.MongoClient
 import com.mongodb.client.MongoDatabase
 import io.micronaut.http.client.HttpClient
@@ -14,13 +16,8 @@ import spock.lang.Specification
 
 import javax.inject.Inject
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse
-import static com.github.tomakehurst.wiremock.client.WireMock.get
-import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
-import static com.github.tomakehurst.wiremock.client.WireMock.verify
+import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
-
 
 @MicronautTest
 class BaseFunctionalSpec extends Specification {
@@ -38,7 +35,7 @@ class BaseFunctionalSpec extends Specification {
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8089))
 
-  String PRODUCT_URL = '/v2/pdp/tcin/13860428?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics'
+  public String PRODUCT_URL = '/v2/pdp/tcin/13860428?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics'
 
   ObjectMapper objectMapper = new ObjectMapper()
 
@@ -58,8 +55,12 @@ class BaseFunctionalSpec extends Specification {
     getMyRetailMongoDatabase().drop()
   }
 
-  void stubProductCall() {
+  StubMapping stubProductCall(ResponseDefinitionBuilder responseDefinitionBuilder = productResponse()) {
+    wireMockRule.stubFor(get(urlEqualTo(PRODUCT_URL))
+      .willReturn(responseDefinitionBuilder))
+  }
 
+  ResponseDefinitionBuilder productResponse() {
     Map productResponse = [
       product: [
         item: [
@@ -69,11 +70,9 @@ class BaseFunctionalSpec extends Specification {
         ]
       ]
     ]
-
-    wireMockRule.stubFor(get(urlEqualTo(PRODUCT_URL))
-      .willReturn(aResponse()
+    aResponse()
       .withBody(objectMapper.writeValueAsString(productResponse))
-      .withHeader("Content-type", "application/json")))
+      .withHeader("Content-type", "application/json")
   }
 
   void verifyProductCall() {

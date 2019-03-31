@@ -1,5 +1,8 @@
-backend:
-  redsky:
-    base-url: "http://localhost:8089"
+micronaut:
+  http:
+    services:
+      redsky:
+        urls:
+          - "http://localhost:8089"
 mongodb:
   uri: mongodb://localhost:27017

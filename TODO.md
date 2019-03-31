@@ -1,10 +1,8 @@
 * [x] Add Co-routines
-* [ ] Failure Scenario Testing
-    * [ ] Price call fails with status code
-    * [ ] Price call times out
-    * [ ] Product call fails with status code
-    * [ ] Product call times out
-    * [ ] Product response missing fields
+* [x] Failure Scenario Testing
+    * [x] Product call fails with status code
+    * [x] Product call times out
+    * [x] Product response missing fields
 * [ ] Add Price PUT Endpoint
 * [ ] Add Metrics
 * [ ] Add Logging
