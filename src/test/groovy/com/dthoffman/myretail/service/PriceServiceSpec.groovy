@@ -2,8 +2,9 @@ package com.dthoffman.myretail.service
 
 import com.dthoffman.myretail.BaseSpec
 import com.dthoffman.myretail.domain.Price
-import com.mongodb.client.FindIterable
-import com.mongodb.client.MongoCollection
+import com.mongodb.reactivestreams.client.FindPublisher
+import com.mongodb.reactivestreams.client.MongoCollection
+import io.micronaut.core.async.publisher.Publishers
 import kotlinx.coroutines.Dispatchers
 
 import static com.mongodb.client.model.Filters.eq;
@@ -19,7 +20,6 @@ class PriceServiceSpec extends BaseSpec {
   def "get price retrieves price from mongo"() {
     setup:
     Price price = new Price(tcin: tcin, price: '$2.95')
-    FindIterable mockFindIterable = Mock(FindIterable)
 
     when:
     Price result = sync {
@@ -28,10 +28,7 @@ class PriceServiceSpec extends BaseSpec {
 
     then:
     result == price
-    1 * mockPriceColleciton.find({
-      it.toString() == eq('tcin', tcin).toString()
-    }) >> mockFindIterable
-    1 * mockFindIterable.first() >> price
+    1 * mockPriceColleciton.find({ it.toString() == eq('tcin', tcin).toString() }) >> (Publishers.just(price) as FindPublisher)
   }
 
 }

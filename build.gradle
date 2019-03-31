@@ -39,6 +39,7 @@ dependencies {
 
   compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
   compile "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.1.1"
+  compile "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.1.1"
 
   compile 'io.micronaut.configuration:micronaut-mongo-reactive'
   compile "org.mongodb:mongo-java-driver"

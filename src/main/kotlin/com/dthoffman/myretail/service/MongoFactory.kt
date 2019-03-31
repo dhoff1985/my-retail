@@ -1,8 +1,9 @@
 package com.dthoffman.myretail.service
 
 import com.dthoffman.myretail.domain.Price
-import com.mongodb.MongoClient
-import com.mongodb.client.MongoCollection
+import com.mongodb.MongoClientSettings
+import com.mongodb.reactivestreams.client.MongoClient
+import com.mongodb.reactivestreams.client.MongoCollection
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Factory
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
@@ -24,6 +25,6 @@ class MongoFactory(val mongoClient: MongoClient) {
     @Bean
     @Singleton
     fun codecRegistry() : CodecRegistry {
-        return fromRegistries(MongoClient.getDefaultCodecRegistry(), fromProviders(PojoCodecProvider.builder().automatic(true).build()))
+        return fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), fromProviders(PojoCodecProvider.builder().automatic(true).build()))
     }
 }
