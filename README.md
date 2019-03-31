@@ -1,7 +1,7 @@
 # My Retail Application
 Aggregates product and price information for products
 
-#Endpoint
+# Endpoint
 
 ## GET PRODUCT
 ### Path
@@ -24,7 +24,7 @@ Returns product and price information for a given tcin
 | price | The formatted price in dollars | true     |
 
 
-#Architecture
+# Architecture
 ## Stack
 * Language: [Kotlin](https://kotlinlang.org/)
 * Framework: [Micronaut](https://micronaut.io/)
@@ -32,7 +32,7 @@ Returns product and price information for a given tcin
 * Data Store: [MongoDB](https://www.mongodb.com/)
 
 ## Testing
-* [Spock Framework](http://spockframework.org/)
+[Spock Framework](http://spockframework.org/)
 
 ### Test Types
 #### Unit Tests
