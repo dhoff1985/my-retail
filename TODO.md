@@ -5,6 +5,7 @@
     * [x] Product response missing fields
     * [x] Price failures
 * [x] Add Price PUT Endpoint
+* [x] Validate Price format
 * [x] Add Logging
 * [x] API Documentation
 
