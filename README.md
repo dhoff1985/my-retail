@@ -2,9 +2,9 @@
 Aggregates product and price information for products
 
 # Notes/Deviations/Outstanding issues
-* I created a PUT endpoint to /price/{id} instead of /product/{id} because it only updates price
-* Mongo PojoCodecProvider requires a no-arg constructor so 
-MongoPrice fields are nullable even though they will not be null 
+* Price update is /price/{id} instead of /product/{id} because it only updates price
+* MongoPrice fields are nullable because Mongo PojoCodecProvider requires a no-arg constructor
+however they will never be null.  
 
 # Endpoint
 
@@ -22,11 +22,13 @@ Returns product and price information for a given tcin
 | id    | Product Identifier             | true     |
 
 ### Response Model
-| Field | Description                    | Nullable |
-| ------|--------------------------------|----------|
-| id    | Product Identifier             | false    |
-| name  | The name of the product        | true     |
-| price | The formatted price in dollars | true     |
+| Field                       | Description                    | Nullable |
+| ----------------------------|--------------------------------|----------|
+| id                          | Product Identifier             | false    |
+| name                        | The name of the product        | true     |
+| current_price               | The current price info         | true     |
+| current_price.value         | The formatted price in dollars | false    |
+| current_price.currency_code | Currency code of price (USD)   | false    |
 
 ## PUT Price
 ### Path
@@ -44,8 +46,9 @@ Adds/Updates a price
 ### Request Model
 | Field            | Description                    | Required |
 | -----------------|--------------------------------|----------|
-| currency_code    | Product Identifier             | true     |
-| price            | The formatted price in dollars | true     |
+| value            | The formatted price '$2.95'    | true     |
+| currency_code    | currency code (USD)            | true     |
+
 
 
 
