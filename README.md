@@ -79,14 +79,20 @@ The local development requires a running mongo instance
 ```$sh
 bin/start-mongo.sh
 ```
+
 ### Build
 ```$sh
 ./gradlew clean build
 ```
 
-## Running Locally
+### Running Locally
 ```$sh
 ./gradlew run
+```
+
+### Writing Test data
+```$sh
+bin/write-price.sh
 ```
 
 ### Intellij IDEA
