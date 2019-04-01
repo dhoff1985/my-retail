@@ -1,6 +1,7 @@
 package com.dthoffman.myretail.service
 
 import com.dthoffman.myretail.BaseSpec
+import com.dthoffman.myretail.domain.CurrencyCode
 import com.dthoffman.myretail.domain.Price
 import com.dthoffman.myretail.mongo.MongoPrice
 import com.mongodb.client.model.ReplaceOptions
@@ -19,9 +20,9 @@ class PriceServiceSpec extends BaseSpec {
 
   String id = "123"
 
-  Price price = new Price('$2.95', "USD")
+  Price price = new Price('$2.95', CurrencyCode.USD)
 
-  MongoPrice mongoPrice = new MongoPrice(id: id, value: '$2.95', currency_code: "USD")
+  MongoPrice mongoPrice = new MongoPrice(id: id, value: '$2.95', currency_code: CurrencyCode.USD)
 
   def "get price retrieves price from mongo"() {
     when:

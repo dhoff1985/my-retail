@@ -1,8 +1,11 @@
 # My Retail Application
 Aggregates product and price information for products
 
-# Notes/Deviations/Outstanding issues
-* Price update is /price/{id} instead of /product/{id} because it only updates price
+# Notes/Deviations
+* Price update is /price/{id} instead of /product/{id} 
+    * /product is an aggregate endpoint
+    * It is more idomatic to update at the domain level
+    * Realistically a price would be it's own microservice with it's own put endpoint
 * MongoPrice fields are nullable because Mongo PojoCodecProvider requires a no-arg constructor
 however they will never be null.  
 

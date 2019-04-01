@@ -2,6 +2,7 @@ package com.dthoffman.myretail.service
 
 import com.dthoffman.myretail.BaseSpec
 import com.dthoffman.myretail.client.*
+import com.dthoffman.myretail.domain.CurrencyCode
 import com.dthoffman.myretail.domain.Price
 import com.dthoffman.myretail.domain.Product
 import kotlinx.coroutines.CompletableDeferredKt
@@ -18,7 +19,7 @@ class ProductServiceSpec extends BaseSpec {
   ProductService productService = new ProductService(mockRedskyClient, mockPriceService, Dispatchers.Default)
 
   String id = "123"
-  def price = new Price('$2.95',"USD")
+  def price = new Price('$2.95', CurrencyCode.USD)
 
   def "product service calls redsky and returns product name"() {
     when:
