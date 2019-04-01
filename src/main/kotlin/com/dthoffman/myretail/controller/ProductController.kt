@@ -11,9 +11,9 @@ import java.util.concurrent.CompletableFuture
 @Controller
 class ProductController(val productService: ProductService) {
 
-    @Get("/product/{tcin}")
-    fun getProduct(@PathVariable("tcin") tcin: String): CompletableFuture<Product> {
-        return productService.getProduct(tcin).asCompletableFuture()
+    @Get("/product/{id}")
+    fun getProduct(@PathVariable("id") id: String): CompletableFuture<Product> {
+        return productService.getProduct(id).asCompletableFuture()
     }
 
 }

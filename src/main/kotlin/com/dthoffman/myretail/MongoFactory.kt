@@ -1,6 +1,6 @@
-package com.dthoffman.myretail.service
+package com.dthoffman.myretail
 
-import com.dthoffman.myretail.domain.Price
+import com.dthoffman.myretail.mongo.MongoPrice
 import com.mongodb.MongoClientSettings
 import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.MongoCollection
@@ -18,8 +18,8 @@ class MongoFactory(val mongoClient: MongoClient) {
 
     @Bean
     @Singleton
-    fun  priceCollection(codecRegistry: CodecRegistry): MongoCollection<Price> {
-        return mongoClient.getDatabase("myRetail").getCollection("price", Price::class.java).withCodecRegistry(codecRegistry)
+    fun  priceCollection(codecRegistry: CodecRegistry): MongoCollection<MongoPrice> {
+        return mongoClient.getDatabase("myRetail").getCollection("price", MongoPrice::class.java).withCodecRegistry(codecRegistry)
     }
 
     @Bean

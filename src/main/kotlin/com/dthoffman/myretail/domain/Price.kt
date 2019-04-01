@@ -1,7 +1,3 @@
 package com.dthoffman.myretail.domain
 
-class Price {
-    var tcin: String? = null
-    var price: String? = null
-
-}
+data class Price (val value: String, val currency_code: String)

@@ -4,7 +4,13 @@
     * [x] Product call times out
     * [x] Product response missing fields
     * [x] Price failures
-* [ ] Add Price PUT Endpoint
-* [ ] Add Metrics
+* [x] Add Price PUT Endpoint
 * [x] Add Logging
-* [ ] Update Readme
+* [x] API Documentation
+
+Production Readiness
+* [ ] Add Metrics, Dashboards, Alerts
+* [ ] Load Test, Measure Performance, Tune
+* [ ] Add Caching/Invalidation
+* [ ] Deployment Pipeline
+

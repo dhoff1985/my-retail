@@ -1,6 +1,6 @@
 package com.dthoffman.myretail.functional
 
-import com.dthoffman.myretail.domain.Price
+import com.dthoffman.myretail.mongo.MongoPrice
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 
@@ -73,7 +73,7 @@ class ProductFunctionalSpec extends BaseFunctionalSpec {
   def "/product/{id} calls redsky and returns product name and price"() {
     setup:
     stubProductCall(productResponse())
-    savePrice(new Price(tcin: '13860428', price: '$2.95'))
+    savePrice(new MongoPrice('13860428', '$2.95', 'USD'))
 
     when:
     Map response = client.toBlocking().retrieve('/product/13860428', Map)
@@ -81,7 +81,8 @@ class ProductFunctionalSpec extends BaseFunctionalSpec {
     then:
     response.id == "13860428"
     response.name == "The Big Lebowski (Blu-ray)"
-    response.price == '$2.95'
+    response.current_price.value == '$2.95'
+    response.current_price.currency_code == 'USD'
     verifyProductCall()
   }
 

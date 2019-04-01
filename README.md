@@ -1,12 +1,17 @@
 # My Retail Application
 Aggregates product and price information for products
 
+# Notes/Deviations/Outstanding issues
+* I created a PUT endpoint to /price/{id} instead of /product/{id} because it only updates price
+* Mongo PojoCodecProvider requires a no-arg constructor so 
+MongoPrice fields are nullable even though they will not be null 
+
 # Endpoint
 
 ## GET PRODUCT
 ### Path
 ```$xslt
-GET /product/{tcin}
+GET /product/{id}
 ```
 
 Returns product and price information for a given tcin
@@ -14,14 +19,34 @@ Returns product and price information for a given tcin
 ### Request Parameters
 | Field | Description                    | Required |
 | ------|--------------------------------|----------|
-| tcin  | Product Identifier             | true     |
+| id    | Product Identifier             | true     |
 
-### Model
+### Response Model
 | Field | Description                    | Nullable |
 | ------|--------------------------------|----------|
-| tcin  | Product Identifier             | false    |
+| id    | Product Identifier             | false    |
 | name  | The name of the product        | true     |
 | price | The formatted price in dollars | true     |
+
+## PUT Price
+### Path
+```$xslt
+PUT /price/{id}
+```
+
+Adds/Updates a price
+
+### Request Parameters
+| Field | Description                    | Required |
+| ------|--------------------------------|----------|
+| id    | Product Identifier             | true     |
+
+### Request Model
+| Field            | Description                    | Required |
+| -----------------|--------------------------------|----------|
+| currency_code    | Product Identifier             | true     |
+| price            | The formatted price in dollars | true     |
+
 
 
 # Architecture

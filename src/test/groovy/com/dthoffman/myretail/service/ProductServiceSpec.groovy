@@ -17,30 +17,31 @@ class ProductServiceSpec extends BaseSpec {
 
   ProductService productService = new ProductService(mockRedskyClient, mockPriceService, Dispatchers.Default)
 
-  String tcin = "123"
+  String id = "123"
+  def price = new Price('$2.95',"USD")
 
   def "product service calls redsky and returns product name"() {
     when:
-    Product response = sync { productService.getProduct(tcin) }
+    Product response = sync { productService.getProduct(id) }
 
     then:
-    1 * mockRedskyClient.getPdp(tcin) >> CompletableFuture.completedFuture(buildProductResponse())
-    1 * mockPriceService.getPrice(tcin) >> CompletableDeferredKt.CompletableDeferred(null)
-    response.id == tcin
+    1 * mockRedskyClient.getPdp(id) >> CompletableFuture.completedFuture(buildProductResponse())
+    1 * mockPriceService.getPrice(id) >> CompletableDeferredKt.CompletableDeferred(null)
+    response.id == id
     response.name == "The Big Lebowski (Blu-ray)"
-    response.price == null
+    response.current_price == null
   }
 
   def "product service calls redsky and returns product name and price"() {
     when:
-    Product response = sync { productService.getProduct(tcin) }
+    Product response = sync { productService.getProduct(id) }
 
     then:
-    1 * mockRedskyClient.getPdp(tcin) >> CompletableFuture.completedFuture(buildProductResponse())
-    1 * mockPriceService.getPrice(tcin) >> CompletableDeferredKt.CompletableDeferred(new Price(tcin: tcin, price: '$2.95'))
-    response.id == tcin
+    1 * mockRedskyClient.getPdp(id) >> CompletableFuture.completedFuture(buildProductResponse())
+    1 * mockPriceService.getPrice(id) >> CompletableDeferredKt.CompletableDeferred(price)
+    response.id == id
     response.name == "The Big Lebowski (Blu-ray)"
-    response.price == '$2.95'
+    response.current_price == price
   }
 
   def "product service handles price errors"() {
@@ -49,15 +50,15 @@ class ProductServiceSpec extends BaseSpec {
     exceptionDeferred.completeExceptionally(new RuntimeException("error"))
 
     when:
-    Product response = sync { productService.getProduct(tcin) }
+    Product response = sync { productService.getProduct(id) }
 
     then:
-    1 * mockRedskyClient.getPdp(tcin) >> CompletableFuture.completedFuture(buildProductResponse())
-    1 * mockPriceService.getPrice(tcin) >> { throw  new RuntimeException("error") }
+    1 * mockRedskyClient.getPdp(id) >> CompletableFuture.completedFuture(buildProductResponse())
+    1 * mockPriceService.getPrice(id) >> { throw  new RuntimeException("error") }
 
-    response.id == tcin
+    response.id == id
     response.name == "The Big Lebowski (Blu-ray)"
-    response.price == null
+    response.current_price == null
   }
 
   PDPResponse buildProductResponse() {

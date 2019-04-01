@@ -1,11 +1,12 @@
 package com.dthoffman.myretail.functional
 
-import com.dthoffman.myretail.domain.Price
+import com.dthoffman.myretail.mongo.MongoPrice
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.junit.WireMockRule
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import com.mongodb.MongoClient
+import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
@@ -47,8 +48,12 @@ class BaseFunctionalSpec extends Specification {
     mongoClient.getDatabase('myRetail').withCodecRegistry(codecRegistry)
   }
 
-  void savePrice(Price price) {
-    getMyRetailMongoDatabase().getCollection('price', Price).insertOne(price)
+  void savePrice(MongoPrice price) {
+    getPriceCollection().insertOne(price)
+  }
+
+  MongoCollection<MongoPrice> getPriceCollection() {
+    getMyRetailMongoDatabase().getCollection('price', MongoPrice)
   }
 
   void dropDp() {

@@ -19,26 +19,26 @@ class ProductService(val redskyClient: RedskyClient, val priceService: PriceServ
 
     val log : Logger = LoggerFactory.getLogger(ProductService::class.java)
 
-    fun getProduct(tcin: String): Deferred<Product> {
+    fun getProduct(id: String): Deferred<Product> {
         return async {
-            val productResponse = getPdpResponse(tcin)
-            val price = getPrice(tcin)
-            Product(tcin, productResponse?.product?.item?.product_description?.title, price?.price)
+            val productResponse = getPdpResponse(id)
+            val price = getPrice(id)
+            Product(id, productResponse?.product?.item?.product_description?.title, price)
         }
     }
 
-    private suspend fun getPrice(tcin: String): Price? {
+    private suspend fun getPrice(id: String): Price? {
         try {
-            return priceService.getPrice(tcin).await()
+            return priceService.getPrice(id).await()
         } catch (e: Exception) {
             log.warn("Error retrieving price", e)
         }
         return null
     }
 
-    private suspend fun getPdpResponse(tcin: String): PDPResponse? {
+    private suspend fun getPdpResponse(id: String): PDPResponse? {
         try {
-            return redskyClient.getPdp(tcin).await()
+            return redskyClient.getPdp(id).await()
         } catch (e: HttpClientException) {
             log.warn("Error retrieving product", e)
         }

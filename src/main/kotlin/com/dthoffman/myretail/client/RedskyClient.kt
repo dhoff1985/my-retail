@@ -8,6 +8,6 @@ import java.util.concurrent.CompletableFuture
 interface RedskyClient {
 
     @Get("\${micronaut.http.services.redsky.path}")
-    fun getPdp(tcin: String) : CompletableFuture<PDPResponse?>
+    fun getPdp(id: String) : CompletableFuture<PDPResponse?>
 
 }
