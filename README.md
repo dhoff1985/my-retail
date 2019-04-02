@@ -59,7 +59,7 @@ Adds/Updates a price
 * Data Store: [MongoDB](https://www.mongodb.com/) 
 
 # Architecture
-## Principals
+## Principles
 [Controller] -> [Service] -> [Data/HTTP]
 * Separate technology details from business logic
 ### Controllers
