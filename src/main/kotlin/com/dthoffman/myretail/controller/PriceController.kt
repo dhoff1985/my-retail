@@ -13,8 +13,8 @@ import javax.validation.Valid
 class PriceController(val priceService: PriceService) {
 
     @Put("/price/{id}")
-    fun addUpdatePrice(@PathVariable("id") id: String, @Valid @Body price: Price): CompletableFuture<Price> {
-        return priceService.savePrice(id, price).asCompletableFuture()
+    fun upsertPrice(@PathVariable("id") id: String, @Valid @Body price: Price): CompletableFuture<Price> {
+        return priceService.upsertPrice(id, price).asCompletableFuture()
     }
 
 }

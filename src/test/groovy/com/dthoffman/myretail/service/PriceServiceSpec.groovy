@@ -38,7 +38,7 @@ class PriceServiceSpec extends BaseSpec {
   def "save price saves price in mongo"() {
     when:
     Price result = sync {
-      priceService.savePrice(id, price)
+      priceService.upsertPrice(id, price)
     }
 
     then:

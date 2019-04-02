@@ -22,7 +22,7 @@ class PriceService(val priceCollection: MongoCollection<MongoPrice>, override va
         }
     }
 
-    fun savePrice(id: String, price: Price): Deferred<Price> {
+    fun upsertPrice(id: String, price: Price): Deferred<Price> {
         return async {
             priceCollection.replaceOne(eq("_id", id), MongoPrice(id, price.value, price.currency_code), ReplaceOptions().upsert(true)).awaitFirst()
             price

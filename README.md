@@ -52,15 +52,29 @@ Adds/Updates a price
 | value            | The formatted price '$2.95'    | true     |
 | currency_code    | currency code (USD)            | true     |
 
-
-
-
-# Architecture
-## Stack
+## Tech Stack
 * Language: [Kotlin](https://kotlinlang.org/) Modern Language
 * Framework: [Micronaut](https://micronaut.io/) Optimized for Microservices
 * Concurrency: [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) Readable and efficient
 * Data Store: [MongoDB](https://www.mongodb.com/) 
+
+# Architecture
+## Principals
+[Controller] -> [Service] -> [Data/HTTP]
+* Separate technology details from business logic
+### Controllers
+* Translate HTTP Requests to Service tier calls. 
+* Can reference an individual service. 
+* Cannot reference multiple services or data/http clients.
+### Services
+* Home to business logic
+* Interact with data/http clients
+* Services can also interact with other services. 
+* Services should not reference controllers
+### Data/Http Clients
+* Owned and used exclusively by 1 service.
+* Do not interact with services and do not interact with controllers.
+
 
 ## Testing
 [Spock Framework](http://spockframework.org/)

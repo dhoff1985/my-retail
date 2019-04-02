@@ -9,9 +9,23 @@
 * [x] Add Logging
 * [x] API Documentation
 
-Production Readiness
+# Production Readiness
+* [ ] Separate Price into it's own Microservice
 * [ ] Add Metrics, Dashboards, Alerts
+    * [ ] Status Codes
+    * [ ] Latency
 * [ ] Load Test, Measure Performance, Tune
-* [ ] Add Caching/Invalidation
+    * [ ] Connection Pools
+    * [ ] Timeouts
+    * [ ] Circuit breakers
+    * [ ] Cache (All applicable)
+        * [ ] In Memory Cache
+        * [ ] Distributed Cache
+        * [ ] Invalidation
 * [ ] Deployment Pipeline
+    * [ ] Build/Test
+    * [ ] Release
+    * [ ] Deploy to staging
+    * [ ] Canary
+    * [ ] Prod Deploy
 
